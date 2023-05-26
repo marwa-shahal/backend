@@ -1,18 +1,39 @@
 import express from "express";
+import {accessRoles} from "../middleware/role.js";
+import verifyToken from "../middleware/verifyToken.js";
+import imageUpload from "../middleware/imageUpload.js";
 import {
   getAllUsers,
   getUserById,
+  getPaginatedUsers,
+  getPaginatedTeachers,
+  getTeacherById,
+  getNormalUserById,
   createUser,
   updateUser,
   deleteUser,
+  loginUser,
 } from "../controllers/userControllers.js";
 
 const router = express.Router();
 
 router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.post("/", createUser);
-router.patch("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.get("/users", getPaginatedUsers);
+router.get("/teachers", getPaginatedTeachers);
+router.get("/:id", verifyToken, getUserById);
+router.post("/", imageUpload, createUser);
+router.post("/login", loginUser);
+router.patch(
+  "/:id",
+  verifyToken,
+  accessRoles(["User", "Teacher", "Admin"]),
+  updateUser
+);
+router.delete(
+  "/:id",
+  verifyToken,
+  accessRoles(["User", "Teacher", "Admin"]),
+  deleteUser
+);
 
 export default router;
