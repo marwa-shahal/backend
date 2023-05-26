@@ -39,10 +39,12 @@ const teacherSchema = new Schema({
     type: String,
     required: true,
   },
-  languages: {
-    type: String,
-    required: true,
-  },
+  languages: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   previous_cases: [
     {
       type: String,

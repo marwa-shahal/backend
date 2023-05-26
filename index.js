@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
-
+import cors from "cors";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import teacherRouter from "./routes/teacherRoutes.js";
 import reviewRouter from "./routes/reviewRoutes.js";
@@ -22,9 +24,13 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running ...");
 });
-app.use("/users", userRouter);
-app.use("/teachers", teacherRouter);
-app.use("/reviews", reviewRouter);
+app.use(cors());
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use("/user", userRouter);
+app.use("/teacher", teacherRouter);
+app.use("/review", reviewRouter);
 
 app.listen(
   PORT,
