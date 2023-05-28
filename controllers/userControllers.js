@@ -157,6 +157,7 @@ export const createUser = async (req, res) => {
     education,
     certificates,
     experience,
+    description,
     availability,
     previous_cases,
     isValid,
@@ -197,9 +198,10 @@ export const createUser = async (req, res) => {
       newUser.country = country;
       newUser.contact_person_email = contact_person_email;
       newUser.contact_person_phone = contact_person_phone;
-      newUser.image = image;
+      newUser.image?  newUser.image= image:null;
       newUser.languages = languages;
       newUser.education = education;
+      newUser.description = description;
       certificates ? (newUser.certificates = certificates) : null;
       experience ? (newUser.experience = experience) : null;
       newUser.availability = availability;
@@ -268,7 +270,7 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     });
-    return res.status(200).json({ message: "Logged in successfully" });
+    return res.status(200).json({ message: "Logged in successfully" , user: user});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });

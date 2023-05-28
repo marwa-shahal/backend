@@ -72,6 +72,12 @@ const UserSchema = new Schema(
         return this.role === "Teacher";
       },
     },
+    description: {
+      type: String,
+      required: function () {
+        return this.role === "Teacher";
+      },
+    },
     certificates: [
       {
         name: {

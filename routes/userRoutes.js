@@ -21,7 +21,7 @@ router.get("/", getAllUsers);
 router.get("/users", getPaginatedUsers);
 router.get("/teachers", getPaginatedTeachers);
 router.get("/:id", verifyToken, getUserById);
-router.post("/", imageUpload, createUser);
+router.post("/signup", createUser);
 router.post("/login", loginUser);
 router.patch(
   "/:id",
