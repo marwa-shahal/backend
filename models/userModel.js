@@ -134,15 +134,14 @@ const UserSchema = new Schema(
         },
       },
     ],
-    availability: [
+    availability: 
       {
         type: String,
-        enum: ["full_time", "part_time", "not_available"],
+        enum: ["full time", "part time", "unavailable"],
         required: function () {
           return this.role === "Teacher";
         },
       },
-    ],
     previous_cases: [
       {
         type: String,

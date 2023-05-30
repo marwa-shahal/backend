@@ -7,6 +7,7 @@ import {
   getUserById,
   getPaginatedUsers,
   getPaginatedTeachers,
+  getPaginatedTeachersByName,
   getTeacherById,
   getNormalUserById,
   createUser,
@@ -20,6 +21,7 @@ const router = express.Router();
 router.get("/", getAllUsers);
 router.get("/users", getPaginatedUsers);
 router.get("/teachers", getPaginatedTeachers);
+router.get("/filterteachers", getPaginatedTeachersByName);
 router.get("/:id", verifyToken, getUserById);
 router.post("/signup", createUser);
 router.post("/login", loginUser);

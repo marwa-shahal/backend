@@ -86,7 +86,7 @@ export const getPaginatedTeachers = async (req, res) => {
       page: options.page,
       hasNextPage,
       nextPage: hasNextPage
-        ? `${req.baseUrl}/organizations?page=${nextPage}&limit=${limit}`
+        ? `${req.baseUrl}/teachers?page=${nextPage}&limit=${limit}`
         : null,
     };
 
@@ -98,6 +98,212 @@ export const getPaginatedTeachers = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+//get paginated filtered by first_name or last_name
+
+// export const getPaginatedTeachersByName = async (req, res) => {
+//   const { page = 1, limit = 5, first_name, last_name } = req.query;
+
+//   try {
+//     const options = {
+//       page: parseInt(page),
+//       limit: parseInt(limit),
+//       sort: { createdAt: -1 },
+//     };
+
+//     const query = { role: "Teacher" };
+
+//     if (first_name && last_name) {
+//       query.$or = [
+//         { first_name: { $regex: new RegExp(first_name, "i") } },
+//         { last_name: { $regex: new RegExp(last_name, "i") } },
+//       ];
+//     } else if (first_name) {
+//       query.first_name = { $regex: new RegExp(first_name, "i") };
+//     } else if (last_name) {
+//       query.last_name = { $regex: new RegExp(last_name, "i") };
+//     }
+
+//     const result = await User.paginate(query, options);
+
+//     const { docs, totalDocs, totalPages, hasNextPage, nextPage } = result;
+
+//     const adjustedLimit =
+//       page < totalPages ? options.limit : totalDocs % options.limit;
+
+//     const pagination = {
+//       totalDocs,
+//       limit: adjustedLimit,
+//       totalPages,
+//       page: options.page,
+//       hasNextPage,
+//       nextPage: hasNextPage
+//         ? `${req.baseUrl}/teachers?page=${nextPage}&limit=${limit}`
+//         : null,
+//     };
+
+//     const populatedDocs = await User.find({ _id: { $in: docs } });
+
+//     return res.status(200).json({ teachers: populatedDocs, pagination });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
+
+// export const getPaginatedTeachersByName = async (req, res) => {
+//   const {
+//     page = 1,
+//     limit = 4,
+//     query: search,
+//     country,
+//     availability,
+//   } = req.query;
+//   var query;
+//   console.log("query", query);
+//   var filter = {};
+//   filter.role = 'Teacher';
+//   console.log(req.query);
+//   try {
+//     const options = {
+//       page: parseInt(page),
+//       limit: parseInt(limit),
+//       sort: { createdAt: -1 },
+//     };
+//     if (search) {
+//       query = search.split(" ");
+//       if (query.length > 0 && query) {
+//         if (query.length > 1) {
+//           filter = {
+//             first_name: { $regex: new RegExp(query[0], "i") },
+//             last_name: { $regex: new RegExp(term[1], "i") },
+//           };
+//         }
+//         if (query.length === 1) {
+//           filter = {
+//             $or: [
+//               {
+//                 first_name: { $regex: new RegExp(query[0], "i") },
+//               },
+//               {
+//                 last_name: { $regex: new RegExp(query[0], "i") },
+//               },
+//             ],
+//           };
+//         }
+//       }
+//     }
+
+//     if (country) {
+//       filter.country = country;
+//     }
+
+//     if (availability) {
+//       filter.availability = availability;
+//     }
+
+//     console.log("filter",filter);
+//     const result = await User.paginate(filter, options);
+
+//     const { docs, totalDocs, totalPages, hasNextPage, nextPage } = result;
+
+//     const adjustedLimit =
+//       page < totalPages ? options.limit : totalDocs % options.limit;
+
+//     const pagination = {
+//       totalDocs,
+//       limit: adjustedLimit,
+//       totalPages,
+//       page: options.page,
+//       hasNextPage,
+//     };
+
+//     res.status(200).json({ pagination, teachers: docs });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "Internal server error", message: error.message });
+//   }
+// };
+
+export const getPaginatedTeachersByName = async (req, res) => {
+  const {
+    page = 1,
+    limit = 4,
+    query: search,
+    country,
+    availability,
+  } = req.query;
+
+  try {
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: { createdAt: -1 },
+    };
+    
+    const filter = {
+      role: 'Teacher',
+    };
+
+    if (search) {
+      const query = search.split(" ");
+      if (query.length > 0 && query) {
+        if (query.length > 1) {
+          filter.$and = [
+            {
+              first_name: { $regex: new RegExp(query[0], "i") },
+            },
+            {
+              last_name: { $regex: new RegExp(query[1], "i") },
+            },
+          ];
+        }
+        if (query.length === 1) {
+          filter.$or = [
+            {
+              first_name: { $regex: new RegExp(query[0], "i") },
+            },
+            {
+              last_name: { $regex: new RegExp(query[0], "i") },
+            },
+          ];
+        }
+      }
+    }
+
+    if (country) {
+      filter.country = country;
+    }
+
+    if (availability) {
+      filter.availability = availability;
+    }
+
+    console.log("filter", filter);
+    const result = await User.paginate(filter, options);
+
+    const { docs, totalDocs, totalPages, hasNextPage, nextPage } = result;
+
+    const adjustedLimit =
+      page < totalPages ? options.limit : totalDocs % options.limit;
+
+    const pagination = {
+      totalDocs,
+      limit: adjustedLimit,
+      totalPages,
+      page: options.page,
+      hasNextPage,
+    };
+
+    res.status(200).json({ pagination, teachers: docs });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
+  }
+};
+
 
 // get paginated Users //
 export const getPaginatedUsers = async (req, res) => {
@@ -198,7 +404,7 @@ export const createUser = async (req, res) => {
       newUser.country = country;
       newUser.contact_person_email = contact_person_email;
       newUser.contact_person_phone = contact_person_phone;
-      newUser.image?  newUser.image= image:null;
+      newUser.image ? (newUser.image = image) : null;
       newUser.languages = languages;
       newUser.education = education;
       newUser.description = description;
@@ -270,7 +476,9 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     });
-    return res.status(200).json({ message: "Logged in successfully" , user: user});
+    return res
+      .status(200)
+      .json({ message: "Logged in successfully", user: user });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
