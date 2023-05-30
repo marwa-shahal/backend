@@ -26,12 +26,12 @@ export const getReviewById = async (req, res) => {
 
 // Create a new review
 export const createReview = async (req, res) => {
-  const { shadow_teacher_id, reviewer_id, text, rating } = req.body;
+  const { shadow_teacher_id, reviewer_id, reviewText, rating } = req.body;
   try {
     const review = await Review.create({
       shadow_teacher_id,
       reviewer_id,
-      text,
+      reviewText,
       rating,
     });
     res.status(201).json(review);
@@ -43,11 +43,11 @@ export const createReview = async (req, res) => {
 // Update a review
 export const updateReview = async (req, res) => {
   const { id } = req.params;
-  const { shadow_teacher_id, reviewer_id, text, rating } = req.body;
+  const { shadow_teacher_id, reviewer_id, reviewText, rating } = req.body;
   try {
     const review = await Review.findByIdAndUpdate(
       id,
-      { shadow_teacher_id, reviewer_id, text, rating },
+      { shadow_teacher_id, reviewer_id, reviewText, rating },
       { new: true }
     );
     if (!review) {

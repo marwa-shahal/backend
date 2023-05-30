@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/user", userRouter);
 app.use("/teacher", teacherRouter);
 app.use("/review", reviewRouter);
-
+app.use("/uploads",express.static("./uploads"))
 app.listen(
   PORT,
   console.log(`Server Running in ${process.env.NODE_ENV} mode on Port ${PORT}`)

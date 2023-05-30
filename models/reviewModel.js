@@ -12,7 +12,7 @@ const ReviewSchema = new Schema({
     ref: "User",
     required: true,
   },
-  text: {
+  reviewText: {
     type: String,
     required: true,
   },
