@@ -1,10 +1,11 @@
 import { Schema, model } from "mongoose";
+ import User from "./userModel.js"
 
 // Define the schema for the collection
 const ReviewSchema = new Schema({
   shadow_teacher_id: {
     type: Schema.Types.ObjectId,
-    ref: "Teacher",
+    ref: "User",
     required: true,
   },
   reviewer_id: {
@@ -20,15 +21,13 @@ const ReviewSchema = new Schema({
     type: Number,
     required: true,
   },
+}, {
+  collection: "Reviews",
+  timestamps: true,
 });
 
 ReviewSchema.pre(["find", "findOne"], function (next) {
-  this.populate("shadow_teacher_id");
-  next();
-});
-
-ReviewSchema.pre(["find", "findOne"], function (next) {
-  this.populate("reviewer_id");
+  this.populate({path:"shadow_teacher_id"});
   next();
 });
 

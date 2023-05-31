@@ -6,7 +6,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
-import teacherRouter from "./routes/teacherRoutes.js";
 import reviewRouter from "./routes/reviewRoutes.js";
 
 dotenv.config();
@@ -29,9 +28,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use("/user", userRouter);
-app.use("/teacher", teacherRouter);
 app.use("/review", reviewRouter);
-app.use("/uploads",express.static("./uploads"))
+app.use("/uploads", express.static("./uploads"));
 app.listen(
   PORT,
   console.log(`Server Running in ${process.env.NODE_ENV} mode on Port ${PORT}`)

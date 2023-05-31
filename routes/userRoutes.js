@@ -1,5 +1,5 @@
 import express from "express";
-import {accessRoles} from "../middleware/role.js";
+import { accessRoles } from "../middleware/role.js";
 import verifyToken from "../middleware/verifyToken.js";
 import imageUpload from "../middleware/imageUpload.js";
 import {
@@ -7,7 +7,7 @@ import {
   getUserById,
   getPaginatedUsers,
   getPaginatedTeachers,
-  getPaginatedTeachersByName,
+  getFilteredPaginatedTeachers,
   getTeacherById,
   getNormalUserById,
   createUser,
@@ -21,7 +21,7 @@ const router = express.Router();
 router.get("/", getAllUsers);
 router.get("/users", getPaginatedUsers);
 router.get("/teachers", getPaginatedTeachers);
-router.get("/filterteachers", getPaginatedTeachersByName);
+router.get("/filterteachers", getFilteredPaginatedTeachers);
 router.get("/:id", verifyToken, getUserById);
 router.post("/signup", createUser);
 router.post("/login", loginUser);

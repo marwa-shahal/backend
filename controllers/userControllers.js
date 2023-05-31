@@ -2,6 +2,8 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs";
+import Review from "../models/reviewModel.js";
+import mongoose from "mongoose";
 import express from "express";
 
 // get all users //
@@ -226,7 +228,7 @@ export const getPaginatedTeachers = async (req, res) => {
 //   }
 // };
 
-export const getPaginatedTeachersByName = async (req, res) => {
+export const getFilteredPaginatedTeachers = async (req, res) => {
   const {
     page = 1,
     limit = 4,
@@ -241,9 +243,9 @@ export const getPaginatedTeachersByName = async (req, res) => {
       limit: parseInt(limit),
       sort: { createdAt: -1 },
     };
-    
+
     const filter = {
-      role: 'Teacher',
+      role: "Teacher",
     };
 
     if (search) {
@@ -295,7 +297,7 @@ export const getPaginatedTeachersByName = async (req, res) => {
       page: options.page,
       hasNextPage,
     };
-
+    console.log("docs", docs);
     res.status(200).json({ pagination, teachers: docs });
   } catch (error) {
     res
@@ -303,7 +305,6 @@ export const getPaginatedTeachersByName = async (req, res) => {
       .json({ error: "Internal server error", message: error.message });
   }
 };
-
 
 // get paginated Users //
 export const getPaginatedUsers = async (req, res) => {
@@ -411,6 +412,8 @@ export const createUser = async (req, res) => {
       certificates ? (newUser.certificates = certificates) : null;
       experience ? (newUser.experience = experience) : null;
       newUser.availability = availability;
+      newUser.reviews = [];
+      newUser.availability = "full time";
       previous_cases ? (newUser.previous_cases = previous_cases) : null;
     }
 

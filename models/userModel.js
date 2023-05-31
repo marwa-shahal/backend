@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Schema, model } from "mongoose";
+// import Reviews from "./models/reviewModel";
 import validator from "validator";
 import mongoosePaginate from "mongoose-paginate-v2";
 
@@ -159,12 +160,23 @@ const UserSchema = new Schema(
       enum: ["User", "Admin", "Teacher"],
       default: "User",
     },
+    reviews: [{
+      type: Schema.Types.ObjectId,
+      ref: "Reviews",
+    }],
   },
   {
     collection: "Users",
     timestamps: true,
   }
 );
+
+
+// UserSchema.pre(["find", "findOne"], function (next) {
+//   this.populate("reviews");
+//   next();
+// });
+
 
 UserSchema.plugin(mongoosePaginate);
 const User = model("User", UserSchema);
