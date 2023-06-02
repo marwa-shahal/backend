@@ -25,6 +25,8 @@ app.get("/", (req, res) => {
 });
 app.use(cors({
   origin: ['https://edushadows-backend.onrender.com/', 'http://localhost:3000/'],
+  credentials: true, 
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
