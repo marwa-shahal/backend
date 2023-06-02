@@ -6,12 +6,12 @@ export const getAllReviews = async (req, res) => {
   try {
     // Retrieve all reviews from the database
     const reviews = await Review.find();
-    console.log(reviews)
+    console.log(reviews);
     // Return the reviews as a response
     res.status(200).json(reviews);
   } catch (error) {
     // Handle any errors that occur during the process
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -29,6 +29,17 @@ export const getReviewById = async (req, res) => {
   }
 };
 
+export const getReviewsByShadowTeacherId = async (shadowTeacherId) => {
+  try {
+    const reviews = await Review.find({ shadow_teacher_id: shadowTeacherId })
+      .populate("reviewer_id")
+      .exec();
+    return reviews;
+  } catch (error) {
+    // Handle the error
+  }
+};
+
 // Create a new review
 export const createReview = async (req, res) => {
   const { shadow_teacher_id, reviewer_id, reviewText, rating } = req.body;
@@ -43,14 +54,14 @@ export const createReview = async (req, res) => {
     const teacher = await User.findById(shadow_teacher_id);
     console.log(teacher);
     if (!teacher) {
-        return res.status(404).json({ message: "Teacher not found" });
+      return res.status(404).json({ message: "Teacher not found" });
     }
     console.log(teacher);
     teacher.reviews.push(review._id);
     await teacher.save();
     res.status(200).json(review);
   } catch (error) {
-    res.status(500).json({ error: error});
+    res.status(500).json({ error: error });
   }
 };
 
