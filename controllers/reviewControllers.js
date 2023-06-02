@@ -32,8 +32,8 @@ export const getReviewById = async (req, res) => {
 export const getReviewsByShadowTeacherId = async (shadowTeacherId) => {
   try {
     const reviews = await Review.find({ shadow_teacher_id: shadowTeacherId })
-      .populate("reviewer_id")
-      .exec();
+      // .populate("reviewer_id")
+      // .exec();
     return reviews;
   } catch (error) {
     // Handle the error

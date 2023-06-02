@@ -26,10 +26,10 @@ const ReviewSchema = new Schema({
   timestamps: true,
 });
 
-ReviewSchema.pre(["find", "findOne"], function (next) {
-  this.populate({path:"shadow_teacher_id"});
-  next();
-});
+// ReviewSchema.pre(["find", "findOne"], function (next) {
+//   this.populate({path:"shadow_teacher_id"});
+//   next();
+// });
 
 const Review = model("Review", ReviewSchema);
 
