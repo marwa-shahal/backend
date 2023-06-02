@@ -162,7 +162,7 @@ const UserSchema = new Schema(
     },
     reviews: [{
       type: Schema.Types.ObjectId,
-      ref: "Reviews",
+      ref: "Review",
     }],
   },
   {
