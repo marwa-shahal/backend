@@ -23,7 +23,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running ...");
 });
-app.use(cors());
+app.use(cors({
+  origin: ['https://edushadows-backend.onrender.com/', 'http://localhost:3000/'],
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
