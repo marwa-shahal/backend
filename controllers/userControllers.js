@@ -30,6 +30,17 @@ export const getUserById = async (req, res) => {
   }
 };
 
+const getReviewsByShadowTeacherId = async (shadowTeacherId) => {
+  try {
+    const reviews = await Review.find({ shadow_teacher_id: shadowTeacherId })
+      .populate("reviewer_id")
+      .exec();
+    return reviews;
+  } catch (error) {
+    // Handle the error
+  }
+};
+
 // get a teacher by id //
 export const getTeacherById = async (req, res) => {
   const { id } = req.params;
