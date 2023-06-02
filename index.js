@@ -23,6 +23,11 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running ...");
 });
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use(cors({
   origin: ['https://edushadows.onrender.com', 'http://localhost:3000'],
   credentials: true,
