@@ -36,7 +36,6 @@ app.use(
     exposedHeaders: "Set-Cookie", // Add the "exposedHeaders" option with "Set-Cookie" value
   })
 );
-user: user, token: token
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
