@@ -24,15 +24,18 @@ app.get("/", (req, res) => {
   res.send("API is running ...");
 });
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
 
-app.use(cors({
-  origin: ['https://edushadows.onrender.com', 'http://localhost:3000'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  cors({
+    origin: ["https://edushadows.onrender.com", "http://localhost:3000"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: "Set-Cookie", // Add the "exposedHeaders" option with "Set-Cookie" value
+  })
+);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
