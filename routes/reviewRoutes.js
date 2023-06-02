@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", getAllReviews);
 router.get("/:id", getReviewById);
-router.get("/teacher/:id",  getReviewsByShadowTeacherId);
+router.get("/teacher/:shadow_teacher_id",  getReviewsByShadowTeacherId);
 router.post("/", createReview);
 router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);
