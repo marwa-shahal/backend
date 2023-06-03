@@ -33,9 +33,9 @@ export const getReviewsByShadowTeacherId = async (req, res) => {
   const { shadow_teacher_id } = req.params;
   console.log(shadow_teacher_id);
   try {
-    const reviews = await Review.find({ shadow_teacher_id: shadow_teacher_id})
-    .populate("reviewer_id")
-    .exec();
+    const reviews = await Review.find({ shadow_teacher_id: shadow_teacher_id })
+      .populate("reviewer_id")
+      .exec();
     console.log(reviews);
 
     if (!reviews) {

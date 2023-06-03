@@ -490,10 +490,57 @@ export const loginUser = async (req, res) => {
 };
 
 // Update a user //
+// export const updateUser = async (req, res) => {
+//   const { id } = req.params;
+//   const { first_name, last_name, role, email, password, phone_number } =
+//     req.body;
+//   try {
+//     // Find the user by ID
+//     const user = await User.findById(id);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // Hash the password if it's being updated
+//     let hashedPassword = user.password;
+//     if (password) {
+//       const isPasswordMatch = await bcrypt.compare(password, user.password);
+//       if (!isPasswordMatch) {
+//         hashedPassword = await bcrypt.hash(password, 10);
+//       }
+//     }
+
+//     // Update user information
+//     const updatedUser = await User.findByIdAndUpdate(
+//       id,
+//       {
+//         first_name: first_name || user.first_name,
+//         last_name: last_name || user.last_name,
+//         role: role || user.role,
+//         email: email || user.email,
+//         password: hashedPassword,
+//         phone_number: phone_number || user.phone_number,
+//       },
+//       { new: true }
+//     );
+
+//     res.status(200).json(updatedUser);
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to update the user" });
+//   }
+// };
+
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { first_name, last_name, role, email, password, phone_number } =
-    req.body;
+  const {
+    first_name,
+    last_name,
+    role,
+    email,
+    password,
+    phone_number,
+    teacher_data,
+  } = req.body;
   try {
     // Find the user by ID
     const user = await User.findById(id);
@@ -501,28 +548,29 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Update user information
+    user.first_name = first_name || user.first_name;
+    user.last_name = last_name || user.last_name;
+    user.role = role || user.role;
+    user.email = email || user.email;
+    user.phone_number = phone_number || user.phone_number;
+
     // Hash the password if it's being updated
-    let hashedPassword = user.password;
     if (password) {
       const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
-        hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
       }
     }
 
-    // Update user information
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        first_name: first_name || user.first_name,
-        last_name: last_name || user.last_name,
-        role: role || user.role,
-        email: email || user.email,
-        password: hashedPassword,
-        phone_number: phone_number || user.phone_number,
-      },
-      { new: true }
-    );
+    // Update teacher-specific data if provided
+    if (user.role === "Teacher" && teacher_data) {
+      Object.assign(user, teacher_data);
+    }
+
+    // Save the updated user
+    const updatedUser = await user.save();
 
     res.status(200).json(updatedUser);
   } catch (error) {
