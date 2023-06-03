@@ -539,6 +539,16 @@ export const updateUser = async (req, res) => {
     email,
     password,
     phone_number,
+    country,
+    city,
+    languages,
+    education,
+    description,
+    certificates,
+    experience,
+    availability,
+    previous_cases
+
   } = req.body;
   try {
     // Find the user by ID
@@ -573,7 +583,7 @@ export const updateUser = async (req, res) => {
       user.certificates = certificates || user.certificates;
       user.experience = experience || user.experience;
       user.availability = availability || user.availability;
-      user.previous_cases= previousCases || user.previousCases;
+      user.previous_cases= previous_cases || user.previous_cases;
     }
 
     // Save the updated user
