@@ -587,7 +587,7 @@ export const updateUser = async (req, res) => {
         user.experience.push(...experience);
       }
       if (certificates) {
-        user.experience.push(...certificates);
+        user.certificates.push(...certificates);
       }
 
       user.availability = availability || user.availability;
