@@ -547,9 +547,9 @@ export const updateUser = async (req, res) => {
     certificates,
     experience,
     availability,
-    previous_cases
-
+    previous_cases,
   } = req.body;
+
   try {
     // Find the user by ID
     const user = await User.findById(id);
@@ -581,9 +581,14 @@ export const updateUser = async (req, res) => {
       user.education = education || user.education;
       user.description = description || user.description;
       user.certificates = certificates || user.certificates;
-      user.experience = experience || user.experience;
+
+      // Add new experience to the existing experiences array
+      if (experience) {
+        user.experience.push(...experience);
+      }
+
       user.availability = availability || user.availability;
-      user.previous_cases= previous_cases || user.previous_cases;
+      user.previous_cases = previous_cases || user.previous_cases;
     }
 
     // Save the updated user
@@ -594,7 +599,6 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Failed to update the user" });
   }
 };
-
 
 // Delete a user //
 export const deleteUser = async (req, res) => {
