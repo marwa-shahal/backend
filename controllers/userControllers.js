@@ -539,7 +539,6 @@ export const updateUser = async (req, res) => {
     email,
     password,
     phone_number,
-    teacher_data,
   } = req.body;
   try {
     // Find the user by ID
@@ -565,8 +564,16 @@ export const updateUser = async (req, res) => {
     }
 
     // Update teacher-specific data if provided
-    if (user.role === "Teacher" && teacher_data) {
-      Object.assign(user, teacher_data);
+    if (user.role === "Teacher") {
+      user.country = country || user.country;
+      user.city = city || user.city;
+      user.languages = languages || user.languages;
+      user.education = education || user.education;
+      user.description = description || user.description;
+      user.certificates = certificates || user.certificates;
+      user.experience = experience || user.experience;
+      user.availability = availability || user.availability;
+      user.previous_cases= previousCases || user.previousCases;
     }
 
     // Save the updated user
@@ -577,6 +584,7 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Failed to update the user" });
   }
 };
+
 
 // Delete a user //
 export const deleteUser = async (req, res) => {
