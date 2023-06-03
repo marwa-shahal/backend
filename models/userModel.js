@@ -83,22 +83,16 @@ const UserSchema = new Schema(
       {
         name: {
           type: String,
-          required: function () {
-            return this.role === "Teacher";
-          },
+          required: true,
         },
-        // startDate: {
-        //   type: Date,
-        //   required: function () {
-        //     return this.role === "Teacher";
-        //   },
-        // },
-        // endDate: {
-        //   type: Date,
-        //   required: function () {
-        //     return this.role === "Teacher";
-        //   },
-        // },
+        issuingAuthority: {
+          type: String,
+          required: true,
+        },
+        issueDate: {
+          type: Date,
+          required: true,
+        },
       },
     ],
     experience: [
@@ -135,14 +129,13 @@ const UserSchema = new Schema(
         },
       },
     ],
-    availability: 
-      {
-        type: String,
-        enum: ["full time", "part time", "unavailable"],
-        required: function () {
-          return this.role === "Teacher";
-        },
+    availability: {
+      type: String,
+      enum: ["full time", "part time", "unavailable"],
+      required: function () {
+        return this.role === "Teacher";
       },
+    },
     previous_cases: [
       {
         type: String,
@@ -160,10 +153,12 @@ const UserSchema = new Schema(
       enum: ["User", "Admin", "Teacher"],
       default: "User",
     },
-    reviews: [{
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    }],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
   },
   {
     collection: "Users",
@@ -171,12 +166,10 @@ const UserSchema = new Schema(
   }
 );
 
-
 // UserSchema.pre(["find", "findOne"], function (next) {
 //   this.populate("reviews");
 //   next();
 // });
-
 
 UserSchema.plugin(mongoosePaginate);
 const User = model("User", UserSchema);

@@ -580,11 +580,14 @@ export const updateUser = async (req, res) => {
       user.languages = languages || user.languages;
       user.education = education || user.education;
       user.description = description || user.description;
-      user.certificates = certificates || user.certificates;
+      //user.certificates = certificates || user.certificates;
 
       // Add new experience to the existing experiences array
       if (experience) {
         user.experience.push(...experience);
+      }
+      if (certificates) {
+        user.experience.push(...certificates);
       }
 
       user.availability = availability || user.availability;
