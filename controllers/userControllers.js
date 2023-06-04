@@ -399,7 +399,6 @@ export const createUser = async (req, res) => {
       contact_person_phone
         ? (newUser.contact_person_phone = contact_person_phone)
         : null;
-      image ? (newUser.image = image) : null;
     } else if (role === "Teacher") {
       newUser.city = city;
       newUser.country = country;
@@ -414,16 +413,15 @@ export const createUser = async (req, res) => {
       newUser.availability = availability;
       newUser.reviews = [];
       newUser.availability = "full time";
-      image ? (newUser.image = image) : null;
-      
       previous_cases ? (newUser.previous_cases = previous_cases) : null;
     }
-
+    newUser.image = image || "";
     // Check if the email is valid
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format" });
     }
+    image ? (newUser.image = image) : null;
 
     // Check if the password is strong enough
     const passwordRegex =
