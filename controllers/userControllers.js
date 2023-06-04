@@ -414,6 +414,8 @@ export const createUser = async (req, res) => {
       newUser.availability = availability;
       newUser.reviews = [];
       newUser.availability = "full time";
+      image ? (newUser.image = image) : null;
+      
       previous_cases ? (newUser.previous_cases = previous_cases) : null;
     }
 
@@ -564,6 +566,7 @@ export const updateUser = async (req, res) => {
     user.role = role || user.role;
     user.email = email || user.email;
     user.phone_number = phone_number || user.phone_number;
+    user.image = image || user.image;
 
     // Hash the password if it's being updated
     if (password) {
@@ -580,7 +583,6 @@ export const updateUser = async (req, res) => {
       user.city = city || user.city;
       user.languages = languages || user.languages;
       user.education = education || user.education;
-      user.image = image || user.image;
       user.description = description || user.description;
 
       // Add new experience to the existing experiences array
