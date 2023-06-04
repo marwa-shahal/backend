@@ -583,11 +583,12 @@ export const updateUser = async (req, res) => {
       user.image = image || user.image;
       user.description = description || user.description;
 
+      // Add new experience to the existing experiences array
       if (experience) {
-        user.experience = experience;
+        user.experience.push(...experience);
       }
       if (certificates) {
-        user.certificates = certificates;
+        user.certificates.push(...certificates);
       }
 
       user.availability = availability || user.availability;
