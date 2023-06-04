@@ -600,7 +600,7 @@ export const updateUser = async (req, res) => {
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update the user" });
+    res.status(500).json({ error: error });
   }
 };
 
