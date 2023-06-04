@@ -421,8 +421,6 @@ export const createUser = async (req, res) => {
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format" });
     }
-    image ? (newUser.image = image) : null;
-
     // Check if the password is strong enough
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$!%*#?&]{8,}$/;
