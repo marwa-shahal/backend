@@ -392,6 +392,7 @@ export const createUser = async (req, res) => {
 
     if (role === "User" || role === "Admin") {
       country ? (newUser.country = country) : null;
+      image ? (newUser.image = image) : null;
       city ? (newUser.city = city) : null;
       contact_person_email
         ? (newUser.contact_person_email = contact_person_email)
@@ -410,12 +411,12 @@ export const createUser = async (req, res) => {
       newUser.description = description;
       certificates ? (newUser.certificates = certificates) : null;
       experience ? (newUser.experience = experience) : null;
+      image ? (newUser.image = image) : null;
       newUser.availability = availability;
       newUser.reviews = [];
       newUser.availability = "full time";
       previous_cases ? (newUser.previous_cases = previous_cases) : null;
     }
-    newUser.image = image || "";
     // Check if the email is valid
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
