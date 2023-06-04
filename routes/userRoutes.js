@@ -27,7 +27,7 @@ router.post("/signup", createUser);
 router.post("/login", loginUser);
 router.patch(
   "/:id",
-  verifyToken,
+  verifyToken,imageUpload,
   accessRoles(["User", "Teacher", "Admin"]),
   updateUser
 );

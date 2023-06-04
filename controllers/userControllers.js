@@ -543,6 +543,7 @@ export const updateUser = async (req, res) => {
     city,
     languages,
     education,
+    image,
     description,
     certificates,
     experience,
@@ -579,15 +580,14 @@ export const updateUser = async (req, res) => {
       user.city = city || user.city;
       user.languages = languages || user.languages;
       user.education = education || user.education;
+      user.image = image || user.image;
       user.description = description || user.description;
-      //user.certificates = certificates || user.certificates;
 
-      // Add new experience to the existing experiences array
       if (experience) {
-        user.experience.push(...experience);
+        user.experience = experience;
       }
       if (certificates) {
-        user.certificates.push(...certificates);
+        user.certificates = certificates;
       }
 
       user.availability = availability || user.availability;
