@@ -298,7 +298,14 @@ export const getFilteredPaginatedTeachers = async (req, res) => {
       hasNextPage,
     };
     console.log("docs", docs);
-    res.status(200).json({ pagination, teachers: docs });
+    //code added
+    const populatedDocs = await User.find({ _id: { $in: docs } }).populate({
+      path: "reviews",
+    });
+
+    return res.status(200).json({ teachers: populatedDocs, pagination });
+
+    // res.status(200).json({ pagination, teachers: docs });
   } catch (error) {
     res
       .status(500)
